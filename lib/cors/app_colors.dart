@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppColorsLight {
+  AppColorsLight._();
+
   static const Color mainColor = Color(0xFF0E3A99);
   static const Color disableColor = Color(0xFFB9B9B9);
   static const Color mainTextColor = Color(0xFF1C1C1C);
@@ -9,9 +11,12 @@ class AppColorsLight {
   static const Color inputsColor = Color(0xFFFFFFFF);
   static const Color strokeColor = Color(0xFFF0F0F0);
   static const Color redColor = Color(0xFFFF3232);
+
 }
 
 class AppColorsDark {
+  AppColorsDark._();
+
   static const Color mainColor = Color(0xFF457AED);
   static const Color disableColor = Color(0xFFB9B9B9);
   static const Color mainTextColor = Color(0xFFFFFFFF);
