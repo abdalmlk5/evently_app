@@ -23,6 +23,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     String currentLanguage = context.locale.languageCode;
 
     return Scaffold(
+      appBar: AppBar(
+        title: Image.asset(AppAssets.topLogo, height: 40),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: width * 0.03,
@@ -32,11 +36,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(height: height * 0.01),
-            Align(
-              alignment: Alignment.center,
-              child: Image.asset(AppAssets.topLogo),
-            ),
             Image.asset(
               AppAssets.onBoardingImage,
               width: double.infinity,
