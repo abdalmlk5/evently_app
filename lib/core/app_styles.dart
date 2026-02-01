@@ -5,33 +5,84 @@ import 'package:google_fonts/google_fonts.dart';
 class AppStyles {
   AppStyles._();
 
-  static final TextStyle primary18500 = GoogleFonts.poppins(
+  static TextStyle get secondary18500 => GoogleFonts.poppins(
     fontSize: 18,
     fontWeight: FontWeight.w500,
-    color: AppColorsLight.mainColor,
+    color: AppColors.secondaryTextColor,
   );
-  static final TextStyle black20600 = GoogleFonts.poppins(
+  static TextStyle get secondary16500 => GoogleFonts.poppins(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.secondaryTextColor,
+  );
+
+  static TextStyle get secondary14400 => GoogleFonts.poppins(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.secondaryTextColor,
+  );
+
+  static TextStyle get secondary20500 => GoogleFonts.poppins(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: AppColors.secondaryTextColor,
+  );
+
+  static TextStyle get main18500 => GoogleFonts.poppins(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    color: AppColors.mainTextColor,
+  );
+
+  static TextStyle get main20600 => GoogleFonts.poppins(
     fontSize: 20,
     fontWeight: FontWeight.w600,
-    color: AppColorsLight.mainTextColor,
+    color: AppColors.mainTextColor,
   );
-  static final TextStyle black16400 = GoogleFonts.poppins(
+
+  static TextStyle get main16400 => GoogleFonts.poppins(
     fontSize: 16,
     fontWeight: FontWeight.w400,
-    color: AppColorsLight.mainTextColor,
+    color: AppColors.mainTextColor,
   );
-  static final TextStyle black14600 = GoogleFonts.poppins(
+
+  static TextStyle get primary14400 => GoogleFonts.poppins(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: AppColors.mainColor,
+  );
+
+  static TextStyle get primary16600 => GoogleFonts.poppins(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: AppColors.mainColor,
+  );
+
+  static TextStyle get onPrimary14600 => GoogleFonts.poppins(
     fontSize: 14,
     fontWeight: FontWeight.w600,
-    color: AppColorsLight.thirdTextColor,
+    color: AppColors.onPrimaryTextColor,
   );
-  static final TextStyle gray16400 = GoogleFonts.poppins(
-    fontSize: 16,
+
+  static TextStyle get gray14400 => GoogleFonts.poppins(
+    fontSize: 14,
     fontWeight: FontWeight.w400,
-    color: AppColorsLight.secondaryTextColor,
+    color: AppColors.grayColor,
   );
-  static final TextStyle white20500 = GoogleFonts.poppins(
+
+  static TextStyle get thirdColor24600 => GoogleFonts.poppins(
+    fontSize: 24,
+    fontWeight: FontWeight.w600,
+    color: AppColors.thirdTextColor,
+  );
+
+  static TextStyle get white20500 => GoogleFonts.poppins(
     fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  );
+  static TextStyle get white16500 => GoogleFonts.poppins(
+    fontSize: 16,
     fontWeight: FontWeight.w500,
     color: Colors.white,
   );

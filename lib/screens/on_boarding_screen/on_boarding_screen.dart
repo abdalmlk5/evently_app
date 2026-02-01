@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_app/core/app_assets.dart';
+import 'package:evently_app/core/app_colors.dart';
+import 'package:evently_app/core/app_styles.dart';
 import 'package:evently_app/core/provider/theme_provider.dart';
 import 'package:evently_app/screens/on_boarding_screen/introduction_screens.dart';
 import 'package:flutter/material.dart';
@@ -17,16 +19,13 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
-    var myProvider = Provider.of<ThemeProvider>(context);
+    var themeProvider = Provider.of<ThemeProvider>(context);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     String currentLanguage = context.locale.languageCode;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Image.asset(AppAssets.topLogo, height: 40),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Image.asset(AppAssets.topLogo, height: 40)),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: width * 0.03,
@@ -41,21 +40,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               width: double.infinity,
               fit: BoxFit.fitWidth,
             ),
-            Text(
-              "onBoardingTitle".tr(),
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            Text(
-              "onBoardingBody".tr(),
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
+            Text("onBoardingTitle".tr(), style: AppStyles.main20600),
+            Text("onBoardingBody".tr(), style: AppStyles.main16400),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "language".tr(),
-                  style: Theme.of(context).textTheme.displayLarge,
-                ),
+                Text("language".tr(), style: AppStyles.main18500),
                 Row(
                   spacing: width * 0.02,
                   children: [
@@ -63,17 +53,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       onTap: () {
                         context.setLocale(const Locale('en'));
                       },
-                      child: currentLanguage == 'en'
-                          ? selectedLanguage("english".tr())
-                          : unSelectedLanguage("english".tr()),
+                      child: getLanguageIcon(
+                        "english".tr(),
+                        currentLanguage == 'en',
+                      ),
                     ),
                     InkWell(
                       onTap: () {
                         context.setLocale(const Locale('ar'));
                       },
-                      child: currentLanguage == 'ar'
-                          ? selectedLanguage("arabic".tr())
-                          : unSelectedLanguage("arabic".tr()),
+                      child: getLanguageIcon(
+                        "arabic".tr(),
+                        currentLanguage == 'ar',
+                      ),
                     ),
                   ],
                 ),
@@ -82,28 +74,27 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "theme".tr(),
-                  style: Theme.of(context).textTheme.displayLarge,
-                ),
+                Text("theme".tr(), style: AppStyles.main18500),
                 Row(
                   spacing: width * 0.02,
                   children: [
                     InkWell(
                       onTap: () {
-                        myProvider.changeThemeMode(ThemeMode.light);
+                        themeProvider.changeThemeMode(ThemeMode.light);
                       },
-                      child: !myProvider.isDark()
-                          ? selectedThemeIcon(AppAssets.sun)
-                          : unselectedThemeIcon(AppAssets.sun),
+                      child: getThemeIcon(
+                        AppAssets.sun,
+                        !themeProvider.isDark(),
+                      ),
                     ),
                     InkWell(
                       onTap: () {
-                        myProvider.changeThemeMode(ThemeMode.dark);
+                        themeProvider.changeThemeMode(ThemeMode.dark);
                       },
-                      child: myProvider.isDark()
-                          ? selectedThemeIcon(AppAssets.moon)
-                          : unselectedThemeIcon(AppAssets.moon),
+                      child: getThemeIcon(
+                        AppAssets.moon,
+                        themeProvider.isDark(),
+                      ),
                     ),
                   ],
                 ),
@@ -130,56 +121,38 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 
-  Container selectedLanguage(String language) {
+  Container getLanguageIcon(String language, bool isSelected) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color: isSelected ? AppColors.mainColor : Colors.transparent,
         borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: isSelected ? Colors.transparent : AppColors.mainColor,
+        ),
       ),
       child: Text(
         language,
-        style: Theme.of(
-          context,
-        ).textTheme.titleSmall?.copyWith(color: Colors.white),
+        style: AppStyles.onPrimary14600.copyWith(
+          color: isSelected ? Colors.white : AppColors.mainColor,
+        ),
       ),
     );
   }
 
-  Container unSelectedLanguage(String language) {
+  Container getThemeIcon(String icon, bool isSelected) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onSecondary,
+        color: isSelected ? AppColors.mainColor : Colors.transparent,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Theme.of(context).colorScheme.primary),
-      ),
-      child: Text(language, style: Theme.of(context).textTheme.titleSmall),
-    );
-  }
-
-  Container selectedThemeIcon(String icon) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: ImageIcon(AssetImage(icon), color: Colors.white),
-    );
-  }
-
-  Container unselectedThemeIcon(String icon) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onSecondary,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Theme.of(context).colorScheme.primary),
+        border: Border.all(
+          color: isSelected ? Colors.transparent : AppColors.mainColor,
+        ),
       ),
       child: ImageIcon(
         AssetImage(icon),
-        color: Theme.of(context).colorScheme.tertiary,
+        color: isSelected ? Colors.white : AppColors.mainColor,
       ),
     );
   }

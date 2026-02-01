@@ -1,15 +1,24 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_app/core/provider/theme_provider.dart';
 import 'package:evently_app/core/theme_data/app_theme.dart';
-import 'package:evently_app/screens/home_screen.dart';
-import 'package:evently_app/screens/on_boarding_screen/on_boarding_screen.dart';
+import 'package:evently_app/screens/auth/forget_password_screen.dart';
+import 'package:evently_app/screens/auth/login_screen.dart';
+import 'package:evently_app/screens/auth/register_screen.dart';
+import 'package:evently_app/screens/main_screen/add_event_screen.dart';
+import 'package:evently_app/screens/main_screen/main_screen.dart';
 import 'package:evently_app/screens/on_boarding_screen/introduction_screens.dart';
+import 'package:evently_app/screens/on_boarding_screen/on_boarding_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(
     EasyLocalization(
@@ -40,11 +49,15 @@ class MyApp extends StatelessWidget {
       darkTheme: darkTheme,
       themeMode: myProvider.themeMode,
 
-      initialRoute: OnBoardingScreen.routeName,
+      initialRoute: MainScreen.routeName,
       routes: {
         OnBoardingScreen.routeName: (context) => const OnBoardingScreen(),
         IntroductionScreens.routeName: (context) => IntroductionScreens(),
-        HomeScreen.routName: (context) => const HomeScreen(),
+        MainScreen.routeName: (context) => MainScreen(),
+        AddEventScreen.routeName: (context) => AddEventScreen(),
+        LoginScreen.routeName: (context) => LoginScreen(),
+        RegisterScreen.routeName: (context) => RegisterScreen(),
+        ForgetPasswordScreen.routeName: (context) => ForgetPasswordScreen(),
       },
     );
   }

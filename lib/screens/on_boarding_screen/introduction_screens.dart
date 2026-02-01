@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_app/core/app_assets.dart';
-import 'package:evently_app/screens/home_screen/home_screen.dart';
+import 'package:evently_app/core/app_styles.dart';
+import 'package:evently_app/screens/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+
+import '../../core/app_colors.dart';
 
 class IntroductionScreens extends StatefulWidget {
   static const routeName = "introduction screen";
@@ -24,15 +27,9 @@ class _IntroductionScreensState extends State<IntroductionScreens> {
           alignment: currentLanguage == 'en'
               ? Alignment.centerLeft
               : Alignment.centerRight,
-          child: Text(
-            "intro_title_1".tr(),
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+          child: Text("intro_title_1".tr(), style: AppStyles.main20600),
         ),
-        bodyWidget: Text(
-          "intro_body_1".tr(),
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
+        bodyWidget: Text("intro_body_1".tr(), style: AppStyles.main16400),
         image: Image.asset(
           AppAssets.introductionImage1,
           width: double.infinity,
@@ -47,15 +44,9 @@ class _IntroductionScreensState extends State<IntroductionScreens> {
           alignment: currentLanguage == 'en'
               ? Alignment.centerLeft
               : Alignment.centerRight,
-          child: Text(
-            "intro_title_2".tr(),
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+          child: Text("intro_title_2".tr(), style: AppStyles.main20600),
         ),
-        bodyWidget: Text(
-          "intro_body_2".tr(),
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
+        bodyWidget: Text("intro_body_2".tr(), style: AppStyles.main16400),
         image: Image.asset(
           AppAssets.introductionImage2,
           width: double.infinity,
@@ -70,15 +61,9 @@ class _IntroductionScreensState extends State<IntroductionScreens> {
           alignment: currentLanguage == 'en'
               ? Alignment.centerLeft
               : Alignment.centerRight,
-          child: Text(
-            "intro_title_3".tr(),
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+          child: Text("intro_title_3".tr(), style: AppStyles.main20600),
         ),
-        bodyWidget: Text(
-          "intro_body_3".tr(),
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
+        bodyWidget: Text("intro_body_3".tr(), style: AppStyles.main16400),
         image: Image.asset(
           AppAssets.introductionImage3,
           width: double.infinity,
@@ -98,10 +83,10 @@ class _IntroductionScreensState extends State<IntroductionScreens> {
       body: IntroductionScreen(
         pages: listPagesViewModel,
         onDone: () {
-          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+          Navigator.pushReplacementNamed(context, LoginScreen.routeName);
         },
         onSkip: () {
-          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+          Navigator.pushReplacementNamed(context, LoginScreen.routeName);
         },
         showSkipButton: true,
         skip: introductionButton("skip".tr()),
@@ -110,7 +95,7 @@ class _IntroductionScreensState extends State<IntroductionScreens> {
         dotsDecorator: DotsDecorator(
           size: const Size.square(10.0),
           activeSize: const Size(20.0, 10.0),
-          activeColor: Theme.of(context).colorScheme.primary,
+          activeColor: AppColors.mainColor,
           color: Colors.grey,
           spacing: const EdgeInsets.symmetric(horizontal: 3.0),
           activeShape: RoundedRectangleBorder(
@@ -126,7 +111,7 @@ class _IntroductionScreensState extends State<IntroductionScreens> {
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary,
+        color: AppColors.mainColor,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Center(
