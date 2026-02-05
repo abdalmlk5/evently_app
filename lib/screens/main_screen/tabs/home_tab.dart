@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../../../core/app_assets.dart';
 import '../../../core/app_colors.dart';
 import '../../../core/app_styles.dart';
+import '../../../core/provider/auth_provider.dart';
 import '../../../core/provider/home_tab_provider.dart';
 import '../../../core/provider/theme_provider.dart';
 import '../../../models/category_model.dart';
@@ -32,25 +33,11 @@ class _HomeTabState extends State<HomeTab> {
   ];
   List<EventModel> events = [];
 
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    loadEvents();
-  }
-
-  Future<void> loadEvents() async {
-    events = await FirebaseFunctions.getEventsFromFirestore();
-    setState(() {});
-    isLoading = false;
-  }
-
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var themeProvider = Provider.of<ThemeProvider>(context);
+    var authProvider = Provider.of<AuthProvider>(context);
     String currentLanguage = context.locale.languageCode;
 
     return ChangeNotifierProvider(
@@ -68,7 +55,11 @@ class _HomeTabState extends State<HomeTab> {
                   spacing: height * 0.005,
                   children: [
                     Text("welcome_back".tr(), style: AppStyles.secondary18500),
-                    Text("User Name", style: AppStyles.secondary20500),
+                    Text(
+                      authProvider.user?.name ?? "",
+                      // 'nam',
+                      style: AppStyles.secondary16500,
+                    ),
                   ],
                 ),
                 Spacer(),

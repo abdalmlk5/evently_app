@@ -1,7 +1,10 @@
+import 'package:evently_app/core/cache/cache_helper.dart';
 import 'package:flutter/material.dart';
 
+bool? userThemeMode;
+
 class ThemeProvider extends ChangeNotifier {
-  ThemeMode themeMode = ThemeMode.system;
+  ThemeMode themeMode = ThemeMode.values[CacheHelper.getThemeMode() ?? 0];
 
   static ThemeProvider? instance;
 
@@ -23,6 +26,6 @@ class ThemeProvider extends ChangeNotifier {
     }
     themeMode = mode;
     notifyListeners();
+    CacheHelper.saveThemeMode(value: mode.index);
   }
-
 }

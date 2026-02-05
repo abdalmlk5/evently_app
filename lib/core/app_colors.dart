@@ -1,7 +1,6 @@
 import 'package:evently_app/core/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 
-
 class AppColorsLight {
   AppColorsLight._();
 
@@ -59,6 +58,8 @@ class AppColors {
       _isDark ? AppColorsDark.strokeColor : AppColorsLight.strokeColor;
 
   static const Color redColor = Color(0xFFFF3232);
+
+  static const Color greenColor = Color(0xFF00A81C);
 
   static const Color disableColor = Color(0xFFB9B9B9);
 

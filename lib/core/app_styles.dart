@@ -34,6 +34,12 @@ class AppStyles {
     color: AppColors.mainTextColor,
   );
 
+  static TextStyle get main16500 => GoogleFonts.poppins(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: AppColors.mainTextColor,
+  );
+
   static TextStyle get main20600 => GoogleFonts.poppins(
     fontSize: 20,
     fontWeight: FontWeight.w600,
@@ -55,6 +61,12 @@ class AppStyles {
   static TextStyle get primary16600 => GoogleFonts.poppins(
     fontSize: 16,
     fontWeight: FontWeight.w600,
+    color: AppColors.mainColor,
+  );
+
+  static TextStyle get primary16500 => GoogleFonts.poppins(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
     color: AppColors.mainColor,
   );
 

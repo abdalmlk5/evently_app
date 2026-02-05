@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_app/core/app_assets.dart';
 import 'package:evently_app/core/app_styles.dart';
+import 'package:evently_app/core/cache/cache_helper.dart';
 import 'package:evently_app/screens/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -82,11 +83,21 @@ class _IntroductionScreensState extends State<IntroductionScreens> {
       ),
       body: IntroductionScreen(
         pages: listPagesViewModel,
-        onDone: () {
-          Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+        onDone: () async {
+          await CacheHelper.saveOnBoardingState(value: false);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            LoginScreen.routeName,
+            (route) => false,
+          );
         },
-        onSkip: () {
-          Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+        onSkip: () async {
+          await CacheHelper.saveOnBoardingState(value: false);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            LoginScreen.routeName,
+            (route) => false,
+          );
         },
         showSkipButton: true,
         skip: introductionButton("skip".tr()),

@@ -55,5 +55,9 @@
   "choose_time": "Choose time",
   "no_date_message": "Please choose event date",
   "no_time_message": "Please choose event time",
-  "search_for_event": "Search for event"
+  "search_for_event": "Search for event",
+  "delete": "Delete",
+  "details": "Details",
+  "event_details" : "Event Details",
+  "edit_event" : "Edit Event"
 }

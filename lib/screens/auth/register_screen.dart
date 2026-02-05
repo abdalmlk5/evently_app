@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_app/core/app_assets.dart';
 import 'package:evently_app/core/app_colors.dart';
 import 'package:evently_app/core/app_styles.dart';
+import 'package:evently_app/screens/main_screen/main_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/firebase/firebase_functions.dart';
@@ -157,7 +158,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       password: passwordController.text,
                       name: nameController.text,
                       onSuccess: () {
-                        Navigator.pop(context);
+                        FirebaseFunctions.loginByEmailAndPassword(
+                          emailAddress: emailController.text,
+                          password: passwordController.text,
+                          onSuccess: (() => Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            MainScreen.routeName,
+                            (route) => false,
+                          )),
+                          onError: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                          onLoading: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.mainColor,
+                                ),
+                              ),
+                            );
+                          },
+                        );
                       },
 
                       onError: (errorMessage) {

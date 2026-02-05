@@ -6,8 +6,10 @@ import 'package:evently_app/screens/auth/forget_password_screen.dart';
 import 'package:evently_app/screens/auth/register_screen.dart';
 import 'package:evently_app/screens/main_screen/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/firebase/firebase_functions.dart';
+import '../../core/provider/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "login screen";
@@ -35,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<AuthProvider>(context);
     String currentLanguage = context.locale.languageCode;
     return Scaffold(
       body: Padding(
@@ -131,6 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       emailAddress: emailController.text,
                       password: passwordController.text,
                       onSuccess: () {
+                        authProvider.readUser();
                         Navigator.pushNamedAndRemoveUntil(
                           context,
                           MainScreen.routeName,
@@ -138,9 +142,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       },
                       onError: (errorMessage) {
+                        Navigator.pop(context);
                         ScaffoldMessenger.of(
                           context,
                         ).showSnackBar(SnackBar(content: Text(errorMessage)));
+                      },
+                      onLoading: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.mainColor,
+                            ),
+                          ),
+                        );
                       },
                     );
                   },

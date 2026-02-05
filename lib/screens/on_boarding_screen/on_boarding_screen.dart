@@ -104,9 +104,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(
+                  Navigator.pushNamedAndRemoveUntil(
                     context,
                     IntroductionScreens.routeName,
+                    (route) => false,
                   );
                 },
                 child: Text(

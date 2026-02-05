@@ -1,8 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_app/models/event_model.dart';
+import 'package:evently_app/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseFunctions {
+  static CollectionReference<UserModel> getUserCollection() {
+    return FirebaseFirestore.instance
+        .collection(UserModel.collectionName)
+        .withConverter<UserModel>(
+          fromFirestore: (snapshot, _) => UserModel.fromJson(snapshot.data()!),
+          toFirestore: (user, _) => user.toJson(),
+        );
+  }
+
+  static CollectionReference<EventModel> getEventsCollection() {
+    return FirebaseFirestore.instance
+        .collection(EventModel.collectionName)
+        .withConverter<EventModel>(
+          fromFirestore: (snapshot, _) => EventModel.fromJson(snapshot.data()!),
+          toFirestore: (event, _) => event.toJson(),
+        );
+  }
+
+  static Future<void> createUser({required UserModel user}) async {
+    await getUserCollection().doc(user.id).set(user);
+  }
+
+  static Future<UserModel?> readUser() async {
+    var userDoc = await getUserCollection()
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    return userDoc.data();
+  }
+
   static Future<void> createUserByEmailAndPassword({
     required String emailAddress,
     required String password,
@@ -16,6 +46,15 @@ class FirebaseFunctions {
             email: emailAddress,
             password: password,
           );
+
+      await createUser(
+        user: UserModel(
+          name: name,
+          email: emailAddress,
+          id: credential.user!.uid,
+        ),
+      );
+
       onSuccess();
     } on FirebaseAuthException catch (e) {
       onError(e.message);
@@ -29,9 +68,11 @@ class FirebaseFunctions {
     required String password,
     required Function onSuccess,
     required Function onError,
+    required Function onLoading,
   }) async {
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      onLoading();
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailAddress,
         password: password,
       );
@@ -62,15 +103,6 @@ class FirebaseFunctions {
     }
   }
 
-  static CollectionReference<EventModel> getEventsCollection() {
-    return FirebaseFirestore.instance
-        .collection(EventModel.collectionName)
-        .withConverter<EventModel>(
-          fromFirestore: (snapshot, _) => EventModel.fromJson(snapshot.data()!),
-          toFirestore: (event, _) => event.toJson(),
-        );
-  }
-
   static Future<void> addEventToFirestore({
     required EventModel event,
     required Function(String e) onError,
@@ -89,54 +121,65 @@ class FirebaseFunctions {
     }
   }
 
-  static Future<List<EventModel>> getEventsFromFirestore({
-    String? categoryName,
-  }) async {
-    var querySnapshot = await getEventsCollection().get();
-
-    List<EventModel> events = categoryName == 'all' || categoryName == null
-        ? querySnapshot.docs.map((doc) {
-            return doc.data();
-          }).toList()
-        : querySnapshot.docs
-              .map((doc) {
-                return doc.data();
-              })
-              .toList()
-              .where((event) {
-                return event.categoryName == categoryName;
-              })
-              .toList();
-
-    return events;
-  }
+  // static Future<List<EventModel>> getEventsFromFirestore({
+  //   String? categoryName,
+  // }) async {
+  //   var querySnapshot = await getEventsCollection().get();
+  //
+  //   List<EventModel> events = categoryName == 'all' || categoryName == null
+  //       ? querySnapshot.docs.map((doc) {
+  //           return doc.data();
+  //         }).toList()
+  //       : querySnapshot.docs
+  //             .map((doc) {
+  //               return doc.data();
+  //             })
+  //             .toList()
+  //             .where((event) {
+  //               return event.categoryName == categoryName;
+  //             })
+  //             .toList();
+  //
+  //   return events;
+  // }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>>
   getStreamEventsFromFirestore() {
     return FirebaseFirestore.instance
         .collection(EventModel.collectionName)
+        .where("userId", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .snapshots();
   }
 
-  static Future<List<EventModel>> getFilterEventsFromFirestore({
-    required String categoryName,
-  }) async {
-    var querySnapshot = await getEventsCollection().get();
+  // static Future<List<EventModel>> getFilterEventsFromFirestore({
+  //   required String categoryName,
+  // }) async {
+  //   var querySnapshot = await getEventsCollection().get();
+  //
+  //   List<EventModel> events = querySnapshot.docs
+  //       .map((doc) {
+  //         return doc.data();
+  //       })
+  //       .toList()
+  //       .where((event) {
+  //         return event.categoryName == categoryName;
+  //       })
+  //       .toList();
+  //
+  //   return events;
+  // }
 
-    List<EventModel> events = querySnapshot.docs
-        .map((doc) {
-          return doc.data();
-        })
-        .toList()
-        .where((event) {
-          return event.categoryName == categoryName;
-        })
-        .toList();
-
-    return events;
+  static void updateEventFavourite({required EventModel event}) {
+    getEventsCollection().doc(event.id).update({
+      "isFavourite": event.isFavourite,
+    });
   }
 
-  static void updateEvent(EventModel event) {
+  static void updateEvent({required EventModel event}) {
     getEventsCollection().doc(event.id).update(event.toJson());
+  }
+
+  static void deleteEvent({required EventModel event}) {
+    getEventsCollection().doc(event.id).delete();
   }
 }

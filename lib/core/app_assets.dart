@@ -64,4 +64,6 @@ class AppAssets {
   static const String dateIcon = "assets/images/icons/date_icon.png";
   static const String timeIcon = "assets/images/icons/time_icon.png";
   static const String searchIcon = "assets/images/icons/search_icon.png";
+  static const String deleteIcon = "assets/images/icons/delete_icon.png";
+  static const String editIcon = "assets/images/icons/edit_icon.png";
 }

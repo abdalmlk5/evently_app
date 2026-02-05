@@ -55,5 +55,9 @@
   "choose_time": "اختر الوقت",
   "no_date_message" : "من فضلك ادخل تاريخ الحدث",
   "no_time_message" : "من فضلك ادخل وقت الحدث",
-  "search_for_event": "إبحث عن حدث.."
+  "search_for_event": "إبحث عن حدث..",
+  "delete" : "حذف",
+  "details": "التفاصيل",
+  "event_details" : "تفاصيل الحدث",
+  "edit_event" : "تعديل حدث"
 }

@@ -3,30 +3,28 @@ import 'package:evently_app/core/app_assets.dart';
 import 'package:evently_app/core/app_colors.dart';
 import 'package:evently_app/core/app_styles.dart';
 import 'package:evently_app/core/firebase/firebase_functions.dart';
-import 'package:evently_app/core/provider/add_event_screen_provider.dart';
 import 'package:evently_app/core/provider/theme_provider.dart';
 import 'package:evently_app/models/event_model.dart';
 import 'package:evently_app/widgets/categories_list.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/provider/edit_event_screen_provider.dart';
 import '../../models/category_model.dart';
 
-class AddEventScreen extends StatefulWidget {
-  static const routeName = "add event screen";
+class EditEventScreen extends StatefulWidget {
+  static const routeName = "edit event screen";
 
-  const AddEventScreen({super.key});
+  const EditEventScreen({super.key});
 
   @override
-  State<AddEventScreen> createState() => _AddEventScreenState();
+  State<EditEventScreen> createState() => _EditEventScreenState();
 }
 
-class _AddEventScreenState extends State<AddEventScreen> {
+class _EditEventScreenState extends State<EditEventScreen> {
   final GlobalKey<FormState> formKey = .new();
   final TextEditingController titleController = .new();
   final TextEditingController descriptionController = .new();
-
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
 
@@ -40,45 +38,46 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
   @override
   Widget build(BuildContext context) {
+    EventModel event = ModalRoute.of(context)!.settings.arguments as EventModel;
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
 
+    titleController.text = event.title;
+    descriptionController.text = event.description;
+    selectedDate = event.date;
+    selectedTime = TimeOfDay.fromDateTime(event.date);
+
     return ChangeNotifierProvider(
-      create: (BuildContext context) => AddEventScreenProvider(),
+      create: (BuildContext context) => EditEventScreenProvider(
+        selectedCategory: categories.indexWhere((element) {
+          return element.categoryName == event.categoryName;
+        }),
+      ),
       builder: (context, child) {
-        var myProvider = Provider.of<AddEventScreenProvider>(context);
+        var myProvider = Provider.of<EditEventScreenProvider>(context);
         var themeProvider = Provider.of<ThemeProvider>(context);
-        Future<void> addEvent() async {
+
+        Future<void> updateEvent() async {
           showDialog(
             context: context,
             builder: (context) => Center(
               child: CircularProgressIndicator(color: AppColors.mainColor),
             ),
           );
-          await FirebaseFunctions.addEventToFirestore(
-            event: EventModel(
-              title: titleController.text,
-              description: descriptionController.text,
-              time: selectedTime!,
-              categoryName:
-                  categories[myProvider.selectedCategory].categoryName,
-              date: selectedDate!,
-              userId: FirebaseAuth.instance.currentUser!.uid,
-            ),
-            onError: (message) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(message)));
-              return;
-            },
-          );
+          event.title = titleController.text;
+          event.description = descriptionController.text;
+          event.date = selectedDate!;
+          event.categoryName =
+              categories[myProvider.selectedCategory].categoryName;
+          event.time = selectedTime!;
+          FirebaseFunctions.updateEvent(event: event);
           Navigator.pop(context);
           Navigator.pop(context);
         }
 
         return Scaffold(
           appBar: AppBar(
-            title: Text("add_event".tr(), style: AppStyles.secondary18500),
+            title: Text("edit_event".tr(), style: AppStyles.secondary18500),
           ),
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: width * 0.02),
@@ -116,9 +115,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                         }
                         return null;
                       },
-                      textDirection: .ltr,
-
                       textInputAction: TextInputAction.next,
+                      textDirection: .ltr,
                       decoration: InputDecoration(hintText: "event_title".tr()),
                     ),
                     Text("description".tr(), style: AppStyles.secondary16500),
@@ -217,13 +215,12 @@ class _AddEventScreenState extends State<AddEventScreen> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text("no_time_message".tr())),
                           );
-
                           return;
                         }
-                        addEvent();
+                        updateEvent();
                       },
                       child: Text(
-                        "add_event".tr(),
+                        "edit_event".tr(),
                         style: AppStyles.white20500,
                       ),
                     ),
