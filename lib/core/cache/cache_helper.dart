@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../app_costs.dart';
+import '../app_consts.dart';
 
 class CacheHelper {
   CacheHelper._();
