@@ -22,6 +22,12 @@ class AppStyles {
     color: AppColors.secondaryTextColor,
   );
 
+  static TextStyle get secondary20600 => GoogleFonts.poppins(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: AppColors.secondaryTextColor,
+  );
+
   static TextStyle get secondary20500 => GoogleFonts.poppins(
     fontSize: 20,
     fontWeight: FontWeight.w500,

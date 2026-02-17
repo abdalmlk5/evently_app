@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/firebase/firebase_functions.dart';
+import '../../../core/provider/auth_provider.dart';
 import '../../auth/login_screen.dart';
 
 class ProfileTab extends StatelessWidget {
@@ -16,6 +17,7 @@ class ProfileTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
+    var authProvider = Provider.of<AuthProvider>(context);
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
 
@@ -34,14 +36,12 @@ class ProfileTab extends StatelessWidget {
                 ),
                 SizedBox(height: height * 0.02),
                 Text(
-                  "John Safwat",
-                  style: AppStyles.secondary20500.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  authProvider.user?.name ?? "",
+                  style: AppStyles.secondary20600,
                 ),
                 SizedBox(height: height * 0.02),
                 Text(
-                  "johnsafwat.route@gmail.com",
+                  authProvider.user?.email ?? "",
                   style: AppStyles.secondary14400.copyWith(fontSize: 14),
                 ),
                 SizedBox(height: height * 0.03),

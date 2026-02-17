@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../core/app_colors.dart';
 import '../core/provider/theme_provider.dart';
-import '../screens/main_screen/event_details.dart';
+import '../screens/event_screens/event_details.dart';
 
 class EventItem extends StatelessWidget {
   final EventModel event;

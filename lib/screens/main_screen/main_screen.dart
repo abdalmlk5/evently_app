@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_app/core/app_assets.dart';
 import 'package:evently_app/core/provider/main_screen_provider.dart';
-import 'package:evently_app/screens/main_screen/add_event_screen.dart';
+import 'package:evently_app/screens/event_screens/add_event_screen.dart';
 import 'package:evently_app/screens/main_screen/tabs/favorite_tab.dart';
 import 'package:evently_app/screens/main_screen/tabs/home_tab.dart';
 import 'package:evently_app/screens/main_screen/tabs/profile_tab.dart';

@@ -57,7 +57,6 @@ class _HomeTabState extends State<HomeTab> {
                     Text("welcome_back".tr(), style: AppStyles.secondary18500),
                     Text(
                       authProvider.user?.name ?? "",
-                      // 'nam',
                       style: AppStyles.secondary16500,
                     ),
                   ],

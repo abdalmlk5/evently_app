@@ -68,8 +68,48 @@ ThemeData lightTheme = ThemeData(
     backgroundColor: AppColorsLight.mainColor,
     contentTextStyle: AppStyles.white16500,
   ),
-  datePickerTheme: DatePickerThemeData(),
-  timePickerTheme: TimePickerThemeData(),
+  datePickerTheme: DatePickerThemeData(
+    backgroundColor: AppColorsLight.backgroundColor,
+    headerBackgroundColor: AppColorsLight.mainColor,
+    headerForegroundColor: Colors.white,
+    dayBackgroundColor: WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
+        return AppColorsLight.mainColor;
+      }
+      return null;
+    }),
+    dayForegroundColor: WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
+        return Colors.white;
+      }
+      return AppColorsLight.secondaryTextColor;
+    }),
+    todayBackgroundColor: WidgetStateProperty.all(
+      AppColorsLight.mainColor.withOpacity(0.1),
+    ),
+    todayForegroundColor: WidgetStateProperty.all(AppColorsLight.mainColor),
+  ),
+  timePickerTheme: TimePickerThemeData(
+    backgroundColor: AppColorsLight.backgroundColor,
+    hourMinuteColor: WidgetStateColor.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
+        return AppColorsLight.mainColor;
+      }
+      return AppColorsLight.inputsColor;
+    }),
+    hourMinuteTextColor: WidgetStateColor.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
+        return Colors.white;
+      }
+      return AppColorsLight.mainColor;
+    }),
+    dayPeriodColor: AppColorsLight.mainColor,
+    dayPeriodTextColor: Colors.white,
+    dialHandColor: AppColorsLight.mainColor,
+    dialBackgroundColor: AppColorsLight.inputsColor,
+    dialTextColor: AppColorsLight.mainColor,
+    entryModeIconColor: AppColorsLight.mainColor,
+  ),
 );
 
 ThemeData darkTheme = ThemeData(
@@ -145,5 +185,47 @@ ThemeData darkTheme = ThemeData(
   snackBarTheme: SnackBarThemeData(
     backgroundColor: AppColorsDark.mainColor,
     contentTextStyle: AppStyles.white16500,
+  ),
+  datePickerTheme: DatePickerThemeData(
+    backgroundColor: AppColorsDark.backgroundColor,
+    headerBackgroundColor: AppColorsDark.mainColor,
+    headerForegroundColor: Colors.white,
+    dayBackgroundColor: WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
+        return AppColorsDark.mainColor;
+      }
+      return null;
+    }),
+    dayForegroundColor: WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
+        return Colors.white;
+      }
+      return AppColorsDark.secondaryTextColor;
+    }),
+    todayBackgroundColor: WidgetStateProperty.all(
+      AppColorsDark.mainColor.withOpacity(0.1),
+    ),
+    todayForegroundColor: WidgetStateProperty.all(AppColorsDark.mainColor),
+  ),
+  timePickerTheme: TimePickerThemeData(
+    backgroundColor: AppColorsDark.backgroundColor,
+    hourMinuteColor: WidgetStateColor.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
+        return AppColorsDark.mainColor;
+      }
+      return AppColorsDark.inputsColor;
+    }),
+    hourMinuteTextColor: WidgetStateColor.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
+        return Colors.white;
+      }
+      return AppColorsDark.mainColor;
+    }),
+    dayPeriodColor: AppColorsDark.mainColor,
+    dayPeriodTextColor: Colors.white,
+    dialHandColor: AppColorsDark.mainColor,
+    dialBackgroundColor: AppColorsDark.inputsColor,
+    dialTextColor: Colors.white,
+    entryModeIconColor: AppColorsDark.mainColor,
   ),
 );
